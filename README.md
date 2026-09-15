@@ -21,6 +21,7 @@ Luego abre `http://localhost:8000`. También se puede usar cualquier servidor es
 ├── .github/workflows/pages.yml  # Publicación en GitHub Pages
 ├── css/styles.css               # Sistema visual y estilos responsivos
 ├── js/main.js                   # Menú, animaciones y validación del formulario
+├── Lazo.png                     # Logo oficial de Silvia
 ├── .nojekyll                    # Publicación estática sin procesamiento Jekyll
 ├── index.html                   # Contenido principal y SEO
 └── README.md
@@ -28,13 +29,7 @@ Luego abre `http://localhost:8000`. También se puede usar cualquier servidor es
 
 ## Logo oficial
 
-El logo todavía no existe. Los dos espacios reservados están marcados en `index.html` con:
-
-```html
-<!-- TODO: Insert official Silvia logo here -->
-```
-
-Cuando exista el recurso oficial, agrega el archivo a `assets/images/` y reemplaza el contenido de cada `.brand__logo-slot` por una imagen con texto alternativo apropiado.
+El archivo `Lazo.png` contiene el logo oficial y se utiliza en la navegación y en el pie de página. Conserva el fondo transparente y las proporciones originales cuando se actualice el recurso.
 
 ## Formulario de contacto
 
