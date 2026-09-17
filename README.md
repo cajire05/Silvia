@@ -37,6 +37,32 @@ La interfaz valida los campos localmente, evita la entrega real y comunica con c
 
 Para habilitarlo, reemplaza el bloque marcado con `TODO` en `js/main.js` por la integración acordada (por ejemplo, Formspree, EmailJS o una función serverless), documenta el tratamiento de datos y publica la política de privacidad antes de recopilar solicitudes reales.
 
+## Funnel de Meta Pixel
+
+La landing utiliza exclusivamente el Meta Pixel `2317393729032364`. `PageView` se registra al cargar la página y los eventos personalizados describen el avance del visitante:
+
+- `PageView`: personas que cargaron Silvia.
+- `Silvia_10s`: personas que permanecieron activas al menos 10 segundos.
+- `Silvia_30s`: personas que permanecieron activas al menos 30 segundos.
+- `Silvia_60s`: personas que permanecieron activas al menos 1 minuto.
+- `Scroll_25`, `Scroll_50`, `Scroll_75` y `Scroll_90`: profundidad aproximada de consumo; `Scroll_50` representa al menos la mitad de la landing y `Scroll_90` que prácticamente se llegó al final.
+- `Demo_Click`: intención de solicitar una demo, con la ubicación `header`, `hero` o `final_cta`.
+- `Form_Start`: la persona comenzó realmente a llenar el formulario.
+- `Form_Attempt`: completó campos válidos e intentó enviarlo.
+- `Lead`: el formulario fue realmente recibido. Está preparado mediante `trackLeadSuccess()`, pero no se ejecuta mientras no exista confirmación real de un proveedor o backend.
+
+Los hitos de tiempo cuentan solamente mientras la pestaña está visible. Cada evento se limita a una vez por carga. Los parámetros `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` y `fbclid`, cuando existen, se conservan solo durante la sesión en `sessionStorage`; no se crean cookies ni se envían datos del formulario al Pixel.
+
+Para probar, abre `http://localhost:8000/?debug_pixel=1`. La consola mostrará cada evento antes de enviarlo; sin ese parámetro no se generan mensajes de depuración.
+
+### Interpretación
+
+- Abandono antes de un minuto: compara `PageView` con `Silvia_60s`. Por ejemplo, 350 `Silvia_60s` entre 1000 `PageView` indica que aproximadamente el 35 % alcanzó al menos un minuto de interacción activa.
+- Demo CTR = `Demo_Click / PageView`.
+- Form Start Rate = `Form_Start / Demo_Click`.
+- Form Completion Intent = `Form_Attempt / Form_Start`.
+- Lead Conversion Rate futuro = `Lead / PageView`.
+
 ## GitHub Pages
 
 `.github/workflows/pages.yml` publica el contenido estático mediante las acciones oficiales de GitHub Pages cada vez que hay un cambio en `main`. También permite una ejecución manual desde **Actions**.
